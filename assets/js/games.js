@@ -1,4 +1,10 @@
-var PATH_TO_IMAGES = "assets/images/games/";
+var PATH_TO_IMAGES;
+
+// сетваме пътя за папката със картинките. Пътя го взимаме чрез endpoint от сървъра
+ajax("GET", "/images-folder", function(resp) {
+    PATH_TO_IMAGES = resp;
+});
+
 var resultDesign = 1;
 
 // сетва избрания дизайн за показване на резултатите и ги визуализира по него
