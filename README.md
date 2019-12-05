@@ -1,4 +1,4 @@
-#Games database UI
+# Games database UI
 
 A front-end project, containing all CRUD operations with a user interface
 using another my project, that provides REST endpoints
