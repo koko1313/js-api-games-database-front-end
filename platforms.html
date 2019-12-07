@@ -9,7 +9,15 @@
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="assets/css/fontawesome.all.min.css">
 	<link rel="stylesheet" href="assets/css/style.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap">
+    
+    <!-- Loading scrips -->
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <script src="assets/js/requests.js"></script>
+    <script src="assets/js/platforms.js"></script>
+    <script src="assets/js/authorization.js"></script>
 </head>
 <body>
 
@@ -25,6 +33,10 @@
                     <li class="nav-item"><a class="nav-link" href="genres.html">Жанрове</a></li>
                     <li class="nav-item active"><a class="nav-link" href="platforms.html">Платформи</a></li>
                     <li class="nav-item"><a class="nav-link" href="developers.html">Разработчици</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li id="loginMenuButton" class="nav-item" style="display: none"><a class="nav-link" href="login.html">Вход</a></li>
+                    <li id="logoutMenuButton" class="nav-item" style="display: none"><a class="nav-link" href="#" onClick="logout()">Изход (<span id="loggedUserLabel"></span>)</a></li>
                 </ul>
             </div>
         </div>
@@ -88,12 +100,6 @@
             </div>
         </div>
     </div>
- 
-    <!-- Loading scrips -->
-    <script src="assets/js/jquery-3.4.1.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
 
-    <script src="assets/js/requests.js"></script>
-	<script src="assets/js/platforms.js"></script>
 </body>
 </html>

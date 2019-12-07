@@ -1,5 +1,3 @@
-var loggedUser;
-
 function login() {
     var username = $("#username").val();
     var password = $("#password").val();
@@ -14,7 +12,6 @@ function login() {
         xhrFields: {withCredentials: true},
         complete: function(data) {
             switch(data.status) {
-                //location.href = "index.html";
                 case 200 :
                     getWhoAmI();
                     break;
@@ -29,26 +26,40 @@ function login() {
 
 function logout() {
     $.ajax({
-        method: "GET",
+        method: "POST",
         url: SERVER_URL + "/logout-user",
         xhrFields: {withCredentials: true},
         complete: function(data) {
-            console.log(data.responseJSON);
+            location.href = "index.html";
         }
     });
 }
 
-function getWhoAmI() {
+function getWhoAmI(callback) {
     $.ajax({
         method: "GET",
         url: SERVER_URL + "/getWhoAmI",
         xhrFields: {withCredentials: true},
         complete: function(data) {
-            console.log(data.responseJSON);
+            callback(data);
+        }
+    });
+}
+
+// показва/скрива бутоните за вход/регистрация, зависи дали е логнат потребител
+function showLoginOrLogoutMenuButton() {
+    getWhoAmI(function(data) {
+        var loggedUser = data.responseJSON;
+        // if there is logged user
+        if(loggedUser != undefined) {
+            $("#loggedUserLabel").text(loggedUser.username); // сетва името на логнатия потребител
+            $("#logoutMenuButton").show();
+        } else {
+            $("#loginMenuButton").show();
         }
     });
 }
 
 $(document).ready(function() {
-    //getWhoAmI();
+    showLoginOrLogoutMenuButton();
 });
