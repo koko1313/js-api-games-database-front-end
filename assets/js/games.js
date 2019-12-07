@@ -439,6 +439,7 @@ function insertGame() {
         cache: false,
         data: formData,
         enctype: 'multipart/form-data',
+        xhrFields: {withCredentials: true},
         complete: function(data) {
             switch(data.status) {
                 case 201: 
@@ -461,6 +462,7 @@ function editGame(id) {
     $.ajax({
         method: "GET",
         url: SERVER_URL + "/game",
+        xhrFields: {withCredentials: true},
         data: {
             id: id
         },
@@ -546,6 +548,7 @@ function updateGame() {
         cache: false,
         data: formData,
         enctype: 'multipart/form-data',
+        xhrFields: {withCredentials: true},
         complete: function(data) {
             switch(data.status) {
                 case 200: 
@@ -570,6 +573,7 @@ function deleteGame(id) {
     $.ajax({
         method: "DELETE",
         url: SERVER_URL + "/game/delete",
+        xhrFields: {withCredentials: true},
         data: {
             id: id
         },

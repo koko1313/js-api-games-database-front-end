@@ -46,20 +46,77 @@ function getWhoAmI(callback) {
     });
 }
 
-// показва/скрива бутоните за вход/регистрация, зависи дали е логнат потребител
-function showLoginOrLogoutMenuButton() {
+// Проверява дали подадения потребител е админ
+function isAdmin(loggedUser) {
+    var userRoles = loggedUser.roles;
+
+    for(var i=0; i<userRoles.length; i++) {
+        if(userRoles[i].name == "ROLE_ADMIN") {
+            return true
+        }
+    }
+
+    return false;
+}
+
+function showElementsIfNotLogged() {
     getWhoAmI(function(data) {
         var loggedUser = data.responseJSON;
-        // if there is logged user
-        if(loggedUser != undefined) {
-            $("#loggedUserLabel").text(loggedUser.username); // сетва името на логнатия потребител
-            $("#logoutMenuButton").show();
-        } else {
-            $("#loginMenuButton").show();
+        // if there is not logged user
+        if(loggedUser == undefined) {
+            var elements = $(".show-if-not-logged");
+            for(var i = 0; i < elements.length; i++) {
+                $(elements[i]).show();
+            }
         }
     });
 }
 
+function showElementsIfLogged() {
+    getWhoAmI(function(data) {
+        var loggedUser = data.responseJSON;
+        // if there is logged user
+        if(loggedUser != undefined) {
+            var elements = $(".show-if-logged");
+            for(var i = 0; i < elements.length; i++) {
+                $(elements[i]).show();
+            }
+        }
+    });
+}
+
+function showElementsIfAdmin() {
+    getWhoAmI(function(data) {
+        var loggedUser = data.responseJSON;
+        // if there is not logged user
+        if(loggedUser != undefined && isAdmin(loggedUser)) {
+            var elements = $(".show-if-admin");
+            for(var i = 0; i < elements.length; i++) {
+                $(elements[i]).show();
+            }
+        }
+    });
+}
+
+
+/**
+ * Показва съответните елементи, в зависимост от authentication-а
+ * За цента, елементите трябва да имат задължително клас .depend-on-authentication и .show-if-not-logged, .show-if-logged, .show-if-admin
+ */
+function showHideElementsDependOnAuthentication() {
+    showElementsIfNotLogged();
+    showElementsIfLogged();
+    showElementsIfAdmin();
+}
+
 $(document).ready(function() {
-    showLoginOrLogoutMenuButton();
+    showHideElementsDependOnAuthentication();
+
+    getWhoAmI(function(data) {
+        var loggedUser = data.responseJSON;
+        // if there is logged user
+        if(loggedUser != undefined) {
+            $("#loggedUserLabel").text(loggedUser.username);
+        }
+    });
 });
