@@ -35,8 +35,8 @@
                     <li class="nav-item"><a class="nav-link" href="developers.html">Разработчици</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li id="loginMenuButton" class="nav-item" style="display: none"><a class="nav-link" href="login.html">Вход</a></li>
-                    <li id="logoutMenuButton" class="nav-item" style="display: none"><a class="nav-link" href="#" onClick="logout()">Изход (<span id="loggedUserLabel"></span>)</a></li>
+                    <li id="loginMenuButton" class="nav-item depend-on-authentication show-if-not-logged"><a class="nav-link" href="login.html">Вход</a></li>
+                    <li id="logoutMenuButton" class="nav-item depend-on-authentication show-if-logged"><a class="nav-link" href="#" onClick="logout()">Изход (<span id="loggedUserLabel"></span>)</a></li>
                 </ul>
             </div>
         </div>
