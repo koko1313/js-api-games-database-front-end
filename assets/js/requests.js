@@ -1,13 +1,43 @@
-var SERVER_URL = "http://localhost:9080";
+class Requests {
 
-// do an ajax request and call the callback function
-function ajax(method, url, callback) {
-    $("#loadingBar").show();
-    $.ajax({
-        type: method,
-        url: SERVER_URL + url,
-        xhrFields: {withCredentials: true},
-    }).done(function(resp) {
-        callback(resp);
-    });
+    /**
+     * @param {String} method 
+     * @param {String} url 
+     * @param {Object} data 
+     * @param {Function} callback 
+     */
+    static ajax(method, url, data, callback) {
+        //$("#loadingBar").show();
+        $.ajax({
+            method: method,
+            url: Server.SERVER_URL + url,
+            data: data,
+            xhrFields: {withCredentials: true},
+            complete: function(resp) {
+                callback(resp);
+            }
+        });
+    }
+
+    /**
+     * @param {String} method
+     * @param {String} url 
+     * @param {FormData} data 
+     * @param {Function} callback 
+     */
+    static ajaxForm(method, url, data, callback) {
+        $.ajax({
+            method: method,
+            url: Server.SERVER_URL + url,
+            data: data,
+            processData: false,
+            contentType: false,
+            cache: false,
+            enctype: 'multipart/form-data',
+            xhrFields: {withCredentials: true},
+            complete: function(resp) {
+                callback(resp);
+            }
+        });
+    }
 }

@@ -2,7 +2,8 @@ var PATH_TO_IMAGES;
 var loggedUser;
 
 // сетваме пътя за папката със картинките. Пътя го взимаме чрез endpoint от сървъра
-ajax("GET", "/images-folder", function(resp) {
+Requests.ajax("GET", "/images-folder", null, function(resp) {
+    resp = resp.responseText;
     PATH_TO_IMAGES = resp;
 });
 
@@ -31,6 +32,7 @@ function clearResults() {
 
 // показва резултатите (извиква се като callback от ajax)
 function showResult(resp) {
+    resp = resp.responseJSON;
     // показва резултатите, спрямо дизайна, който e избран
     switch(resultDesign) {
         case 1 : showResultDesign1(resp); break;
@@ -166,16 +168,16 @@ function search() {
     clearResults(); // когато е зададен нов параметър, трием показаните до момента резултати
 
     if(selectedGenres.includes(0) && selectedPlatforms.includes(0)) {
-        ajax("GET", "/game/all", showResult);
+        Requests.ajax("GET", "/game/all", null, showResult);
     }
     else if(!selectedGenres.includes(0) && !selectedPlatforms.includes(0)) {
-        ajax("GET", "/game/search?genres_id_list=" + selectedGenres.join(",") + "&platforms_id_list=" + selectedPlatforms.join(","), showResult);
+        Requests.ajax("GET", "/game/search?genres_id_list=" + selectedGenres.join(",") + "&platforms_id_list=" + selectedPlatforms.join(","), null, showResult);
     }
     else if(!selectedGenres.includes(0)) {
-        ajax("GET", "/game/search?genres_id_list=" + selectedGenres.join(","), showResult);
+        Requests.ajax("GET", "/game/search?genres_id_list=" + selectedGenres.join(","), null, showResult);
     }
     else if(!selectedPlatforms.includes(0)) {
-        ajax("GET", "/game/search?platforms_id_list=" + selectedPlatforms.join(","), showResult);
+        Requests.ajax("GET", "/game/search?platforms_id_list=" + selectedPlatforms.join(","), null, showResult);
     }
 }
 
@@ -189,12 +191,13 @@ var selectedPlatforms = [0];
 
 // попълва филтъра с жанровете
 function loadGenres() {
-    ajax("GET", "/genre/all", function(resp) {
-        for(var i=0; i<resp.length; i++) {
+    Requests.ajax("GET", "/genre/all", null, function(resp) {
+        var genres = resp.responseJSON;
+        for(var i=0; i<genres.length; i++) {
             var genreItem = $("#genreItemTemplate").clone();
             genreItem.removeAttr("id");
-            genreItem.attr("data-value", resp[i].id);
-            genreItem.text(resp[i].name);
+            genreItem.attr("data-value", genres[i].id);
+            genreItem.text(genres[i].name);
 
             genreItem.show();
             $("#genresModal").find(".modal-body").find("ul").append(genreItem);
@@ -204,12 +207,13 @@ function loadGenres() {
 
 // попълва филтъра с платформите
 function loadPlatforms() {
-    ajax("get", "/platform/all", function(resp) {
-        for(var i=0; i<resp.length; i++) {
+    Requests.ajax("GET", "/platform/all", null, function(resp) {
+        var platforms = resp.responseJSON;
+        for(var i=0; i<platforms.length; i++) {
             var platformItem = $("#platformItemTemplate").clone();
             platformItem.removeAttr("id");
-            platformItem.attr("data-value", resp[i].id);
-            platformItem.text(resp[i].name);
+            platformItem.attr("data-value", platforms[i].id);
+            platformItem.text(platforms[i].name);
 
             platformItem.show();
             $("#platformsModal").find(".modal-body").find("ul").append(platformItem);
@@ -354,14 +358,15 @@ function loadInputFields() {
 }
 
 function loadInputGenres() {
-    ajax("get", "/genre/all", function(resp) {
-        for(var i=0; i<resp.length; i++) {
+    Requests.ajax("GET", "/genre/all", null, function(resp) {
+        var genres = resp.responseJSON;
+        for(var i=0; i<genres.length; i++) {
             var genreItem = $("#genreInputTemplate").clone();
             genreItem.removeAttr("id");
-            genreItem.find("input").attr("id", "inputGenre" + resp[i].id);
-            genreItem.find("input").attr("value", resp[i].id);
-            genreItem.find("label").attr("for", "inputGenre" + resp[i].id);
-            genreItem.find("label").text(resp[i].name);
+            genreItem.find("input").attr("id", "inputGenre" + genres[i].id);
+            genreItem.find("input").attr("value", genres[i].id);
+            genreItem.find("label").attr("for", "inputGenre" + genres[i].id);
+            genreItem.find("label").text(genres[i].name);
 
             genreItem.show();
             $("#gameInputGenres").append(genreItem);
@@ -370,14 +375,15 @@ function loadInputGenres() {
 }
 
 function loadInputPlatforms() {
-    ajax("get", "/platform/all", function(resp) {
-        for(var i=0; i<resp.length; i++) {
+    Requests.ajax("GET", "/platform/all", null, function(resp) {
+        var platforms = resp.responseJSON;
+        for(var i=0; i<platforms.length; i++) {
             var platformItem = $("#platformInputTemplate").clone();
             platformItem.removeAttr("id");
-            platformItem.find("input").attr("id", "inputPlatform" + resp[i].id);
-            platformItem.find("input").attr("value", resp[i].id);
-            platformItem.find("label").attr("for", "inputPlatform" + resp[i].id);
-            platformItem.find("label").text(resp[i].name);
+            platformItem.find("input").attr("id", "inputPlatform" + platforms[i].id);
+            platformItem.find("input").attr("value", platforms[i].id);
+            platformItem.find("label").attr("for", "inputPlatform" + platforms[i].id);
+            platformItem.find("label").text(platforms[i].name);
 
             platformItem.show();
             $("#gameInputPlatforms").append(platformItem);
@@ -386,12 +392,13 @@ function loadInputPlatforms() {
 }
 
 function loadInputDevelopers() {
-    ajax("get", "/developer/all", function(resp) {
-        for(var i=0; i<resp.length; i++) {
+    Requests.ajax("GET", "/developer/all", null, function(resp) {
+        var developers = resp.responseJSON;
+        for(var i=0; i<developers.length; i++) {
             var developerItem = $("#developerInputTemplate").clone();
             developerItem.removeAttr("id");
-            developerItem.attr("value", resp[i].id);
-            developerItem.text(resp[i].name);
+            developerItem.attr("value", developers[i].id);
+            developerItem.text(developers[i].name);
 
             developerItem.show();
             $("#gameInputDeveloper").append(developerItem);
@@ -401,28 +408,6 @@ function loadInputDevelopers() {
 
 // ########################################################################
 
-
-// override modal close event
-$('#gameFormModal').on('hidden.bs.modal', function () {
-    $("#gameInputId").val("");
-    $("#gameInputName").val("");
-    $("#gameInputDeveloper").val(0);
-    $("#gameInputImage").val("");
-    $("#gameInputDescription").val("");
-
-    var genresCheckboxes = $("#gameInputGenres").find("input");
-    for(var i = 0; i < genresCheckboxes.length; i++) {
-        $(genresCheckboxes[i]).prop("checked", false);
-    }
-
-    var platformsCheckboxes = $("#gameInputPlatforms").find("input");
-    for(var i = 0; i < platformsCheckboxes.length; i++) {
-        $(platformsCheckboxes[i]).prop("checked", false);
-    }
-
-    $("#insertGameButton").show();
-    $("#updateGameButton").hide();
-});
 
 function insertGame() {
     var formData = new FormData();
@@ -447,85 +432,66 @@ function insertGame() {
     platforms = platforms.substring(0, platforms.length-1); // премахваме последната запетая
 
     formData.append("platforms_id_list", platforms);
-    
-    $.ajax({
-        url: SERVER_URL + '/game/insert',
-        type:'POST',
-        processData: false,
-        contentType: false,
-        cache: false,
-        data: formData,
-        enctype: 'multipart/form-data',
-        xhrFields: {withCredentials: true},
-        complete: function(data) {
-            switch(data.status) {
-                case 201: 
-                    $("#gameFormModal").modal("hide");
-                    search();
-                    break;
-                case 409:
-                    alert("Има игра с това име!");
-                    break;
-                case 404:
-                    alert("Нещо се обърка");
-                    break;
-            }
-            
+
+    Requests.ajaxForm("POST", "/game/insert", formData, function(resp) {
+        switch(resp.status) {
+            case 201: 
+                $("#gameFormModal").modal("hide");
+                search();
+                break;
+            case 409:
+                alert("Има игра с това име!");
+                break;
+            case 404:
+                alert("Нещо се обърка");
+                break;
         }
     });
 }
 
 function editGame(id) {
-    $.ajax({
-        method: "GET",
-        url: SERVER_URL + "/game",
-        xhrFields: {withCredentials: true},
-        data: {
-            id: id
-        },
-        complete: function(data) {
-            switch(data.status) {
-                case 200: 
-                    $("#gameInputId").val(data.responseJSON.id);
-                    $("#gameInputName").val(data.responseJSON.name);
-                    $("#gameInputDescription").val(data.responseJSON.description);
-                    
-                    if(data.responseJSON.developer) {
-                        $("#gameInputDeveloper").val(data.responseJSON.developer.id);
-                    }
+    Requests.ajax("GET", "/game", {id: id}, function(resp) {
+        switch(resp.status) {
+            case 200: 
+                $("#gameInputId").val(resp.responseJSON.id);
+                $("#gameInputName").val(resp.responseJSON.name);
+                $("#gameInputDescription").val(resp.responseJSON.description);
+                
+                if(resp.responseJSON.developer) {
+                    $("#gameInputDeveloper").val(resp.responseJSON.developer.id);
+                }
 
-                    var genres = data.responseJSON.genres;
-                    var genresCheckboxes = $("#gameInputGenres").find("input");
+                var genres = resp.responseJSON.genres;
+                var genresCheckboxes = $("#gameInputGenres").find("input");
 
-                    // селектираме жанровете, на които съответства играта
-                    for(var i = 0; i < genres.length; i++) {
-                        for(var j = 0; j < genresCheckboxes.length; j++) {
-                            if(genres[i].id == $(genresCheckboxes[j]).val()) {
-                                $(genresCheckboxes[j]).prop("checked", true);
-                            }
+                // селектираме жанровете, на които съответства играта
+                for(var i = 0; i < genres.length; i++) {
+                    for(var j = 0; j < genresCheckboxes.length; j++) {
+                        if(genres[i].id == $(genresCheckboxes[j]).val()) {
+                            $(genresCheckboxes[j]).prop("checked", true);
                         }
                     }
+                }
 
-                    var platforms = data.responseJSON.platforms;
-                    var platformsCheckboxes = $("#gameInputPlatforms").find("input");
+                var platforms = resp.responseJSON.platforms;
+                var platformsCheckboxes = $("#gameInputPlatforms").find("input");
 
-                    // селектираме жанровете, на които съответства играта
-                    for(var i = 0; i < platforms.length; i++) {
-                        for(var j = 0; j < platformsCheckboxes.length; j++) {
-                            if(platforms[i].id == $(platformsCheckboxes[j]).val()) {
-                                $(platformsCheckboxes[j]).prop("checked", true);
-                            }
+                // селектираме жанровете, на които съответства играта
+                for(var i = 0; i < platforms.length; i++) {
+                    for(var j = 0; j < platformsCheckboxes.length; j++) {
+                        if(platforms[i].id == $(platformsCheckboxes[j]).val()) {
+                            $(platformsCheckboxes[j]).prop("checked", true);
                         }
                     }
+                }
 
-                    $("#insertGameButton").hide();
-                    $("#updateGameButton").show();
-                    $("#gameFormModal").modal("show");
-                    break;
-                case 404:
-                    alert("Играта не беше намерена!");
-                    break;
-            }
+                $("#insertGameButton").hide();
+                $("#updateGameButton").show();
+                $("#gameFormModal").modal("show");
+                break;
+            case 404:
+                alert("Играта не беше намерена!");
+                break;
         }
     });
 }
@@ -557,29 +523,18 @@ function updateGame() {
 
     formData.append("platforms_id_list", platforms);
     
-    $.ajax({
-        url: SERVER_URL + '/game/update',
-        type:'PUT',
-        processData: false,
-        contentType: false,
-        cache: false,
-        data: formData,
-        enctype: 'multipart/form-data',
-        xhrFields: {withCredentials: true},
-        complete: function(data) {
-            switch(data.status) {
-                case 200: 
-                    $("#gameFormModal").modal("hide");
-                    search();
-                    break;
-                case 409:
-                    alert("Има игра с това име!");
-                    break;
-                case 404:
-                    alert("Играта, която се опитвате да редактирате не беше намерена!");
-                    break;
-            }
-            
+    Requests.ajaxForm("PUT", "/game/update", formData, function(resp) {
+        switch(resp.status) {
+            case 200: 
+                $("#gameFormModal").modal("hide");
+                search();
+                break;
+            case 409:
+                alert("Има игра с това име!");
+                break;
+            case 404:
+                alert("Играта, която се опитвате да редактирате не беше намерена!");
+                break;
         }
     });
 }
@@ -587,22 +542,14 @@ function updateGame() {
 function deleteGame(id) {
     if(!confirm("Сигурни ли сте?")) return;
 
-    $.ajax({
-        method: "DELETE",
-        url: SERVER_URL + "/game/delete",
-        xhrFields: {withCredentials: true},
-        data: {
-            id: id
-        },
-        complete: function(data) {
-            switch(data.status) {
-                case 200:
-                    search();
-                    break;
-                case 404:
-                    alert("Играта, която се опитвате да изтриете не беше намерена!");
-                    break;
-            }
+    Requests.ajax("DELETE", "/game/delete", {id: id}, function(resp) {
+        switch(resp.status) {
+            case 200:
+                search();
+                break;
+            case 404:
+                alert("Играта, която се опитвате да изтриете не беше намерена!");
+                break;
         }
     });
 }
@@ -646,10 +593,32 @@ function goToTopOfPage() {
 }
 
 $(document).ready(function() {
-    getWhoAmI(function(data) {
-        loggedUser = data.responseJSON;
+    getWhoAmI(function(resp) {
+        loggedUser = resp.responseJSON;
     });
     search();
     loadFilters();
     loadInputFields();
+
+    // override modal close event
+    $("#gameFormModal").on("hidden.bs.modal", function () {
+        $("#gameInputId").val("");
+        $("#gameInputName").val("");
+        $("#gameInputDeveloper").val(0);
+        $("#gameInputImage").val("");
+        $("#gameInputDescription").val("");
+
+        var genresCheckboxes = $("#gameInputGenres").find("input");
+        for(var i = 0; i < genresCheckboxes.length; i++) {
+            $(genresCheckboxes[i]).prop("checked", false);
+        }
+
+        var platformsCheckboxes = $("#gameInputPlatforms").find("input");
+        for(var i = 0; i < platformsCheckboxes.length; i++) {
+            $(platformsCheckboxes[i]).prop("checked", false);
+        }
+
+        $("#insertGameButton").show();
+        $("#updateGameButton").hide();
+    });
 });

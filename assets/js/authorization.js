@@ -4,7 +4,7 @@ function login() {
 
     $.ajax({
         method: "POST",
-        url: SERVER_URL + "/login",
+        url: Server.SERVER_URL + "/login",
         data: {
             username: username,
             password: password
@@ -27,7 +27,7 @@ function login() {
 function logout() {
     $.ajax({
         method: "POST",
-        url: SERVER_URL + "/logout-user",
+        url: Server.SERVER_URL + "/logout-user",
         xhrFields: {withCredentials: true},
         complete: function(data) {
             location.href = "index.html";
@@ -38,7 +38,7 @@ function logout() {
 function getWhoAmI(callback) {
     $.ajax({
         method: "GET",
-        url: SERVER_URL + "/getWhoAmI",
+        url: Server.SERVER_URL + "/getWhoAmI",
         xhrFields: {withCredentials: true},
         complete: function(data) {
             callback(data);
