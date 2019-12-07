@@ -90,7 +90,7 @@
 							<h3>Game title</h3>
 						</div>
 						<div class="pull-right">
-							<span class="btn btn-warning game-edit depend-on-authentication show-if-logged" onClick="editGame(1)"><i class="fas fa-edit"></i></span>
+							<span class="btn btn-warning game-edit depend-on-authentication" onClick="editGame(1)"><i class="fas fa-edit"></i></span>
                             <span class="btn btn-danger game-delete depend-on-authentication show-if-admin" onClick="deleteGame(1)"><i class="fas fa-trash-alt"></i></span>
 						</div>
 					</div>
@@ -107,6 +107,7 @@
 							<p>Разработчик: <span class="developers">Rockstar, ...</span></p>
 							<p>Жанр: <span class="genres">Action, Horror, ...</span></p>
 							<p>Описание: <span class="description">About the game ...</span></p>
+							<p>Добавена от: <span class="addedBy"></span></p>
 						</div>
 					</div>
 
@@ -124,11 +125,12 @@
 								<p>Разработчик: <span class="developers">Rockstar, ...</span></p>
 								<p>Жанр: <span class="genres">Action, Horror, ...</span></p>
 								<p>Описание: <span class="description">About the game ...</span></p>
+								<p>Добавена от: <span class="addedBy"></span></p>
 							</p>
 						</div>
 						<div class="card-footer text-right">
-							<span class="btn btn-warning game-edit" onClick="editGame(1)"><i class="fas fa-edit"></i></span>
-							<span class="btn btn-danger game-delete" onClick="deleteGame(1)"><i class="fas fa-trash-alt"></i></span>
+							<span class="btn btn-warning game-edit depend-on-authentication" onClick="editGame(1)"><i class="fas fa-edit"></i></span>
+							<span class="btn btn-danger game-delete depend-on-authentication show-if-admin" onClick="deleteGame(1)"><i class="fas fa-trash-alt"></i></span>
 						</div>
 					</div>
 				</div>

@@ -1,4 +1,5 @@
 var PATH_TO_IMAGES;
+var loggedUser;
 
 // сетваме пътя за папката със картинките. Пътя го взимаме чрез endpoint от сървъра
 ajax("GET", "/images-folder", function(resp) {
@@ -80,9 +81,17 @@ function showResultDesign1(games) {
         // описание
         htmlResult.find('.description').text(game.description);
 
+        // добавена от
+        htmlResult.find('.addedBy').text(game.addedByUser.username);
+
         // edit и delete бутоните
         htmlResult.find(".game-edit").attr("onClick", "editGame("+ game.id +")");
         htmlResult.find(".game-delete").attr("onClick", "deleteGame("+ game.id +")");
+
+        // edit бутона се показва само ако логнатия потребител е добавил играта
+        if(loggedUser != undefined && loggedUser.id == game.addedByUser.id) {
+            htmlResult.find(".game-edit").attr("style", "display: inline !important");
+        }
 
         htmlResult.show();
         $("#results").append(htmlResult);
@@ -132,9 +141,17 @@ function showResultDesign2(games) {
         // описание
         htmlResult.find('.description').text(game.description);
 
+        // добавена от
+        htmlResult.find('.addedBy').text(game.addedByUser.username);
+
         // edit и delete бутоните
         htmlResult.find(".game-edit").attr("onClick", "editGame("+ game.id +")");
         htmlResult.find(".game-delete").attr("onClick", "deleteGame("+ game.id +")");
+
+        // edit бутона се показва само ако логнатия потребител е добавил играта
+        if(loggedUser != undefined && loggedUser.id == game.addedByUser.id) {
+            htmlResult.find(".game-edit").attr("style", "display: inline !important");
+        }
 
         htmlResult.show();
         resultCards.append(htmlResult);
@@ -629,6 +646,9 @@ function goToTopOfPage() {
 }
 
 $(document).ready(function() {
+    getWhoAmI(function(data) {
+        loggedUser = data.responseJSON;
+    });
     search();
     loadFilters();
     loadInputFields();
