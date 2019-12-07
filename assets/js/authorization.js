@@ -29,9 +29,9 @@ function login() {
 
 function logout() {
     $.ajax({
-        method: "POST",
+        method: "GET",
         url: SERVER_URL + "/logout-user",
-        //xhrFields: {withCredentials: true},
+        xhrFields: {withCredentials: true},
         complete: function(data) {
             console.log(data.responseJSON);
         }

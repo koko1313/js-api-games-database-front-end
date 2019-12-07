@@ -6,6 +6,7 @@ function ajax(method, url, callback) {
     $.ajax({
         type: method,
         url: SERVER_URL + url,
+        xhrFields: {withCredentials: true},
     }).done(function(resp) {
         callback(resp);
     });
