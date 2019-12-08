@@ -53,7 +53,7 @@
 
         <div class="row mb-2">
             <div class="col">
-                <a class="btn btn-primary float-right" data-toggle="modal" data-target="#developerFormModal"><i class="fas fa-plus"></i></a>
+                <a class="btn btn-primary float-right depend-on-authentication show-if-admin" data-toggle="modal" data-target="#developerFormModal"><i class="fas fa-plus"></i></a>
             </div>
         </div>
 
@@ -64,7 +64,7 @@
                         <tr>
                             <th scope="col">Разработчик</th>
                             <th scope="col">Описание</th>
-                            <th scope="col">Действие</th>
+                            <th scope="col" class="depend-on-authentication show-if-admin">Действие</th>
                         </tr>
                     </thead>
                     <tbody id="results">
@@ -73,7 +73,7 @@
                         <tr id="resultTemplate" style="display: none;">
                             <td class="developer-name">Atari</td>
                             <td class="developer-description">Atari is ...</td>
-                            <td>
+                            <td class="depend-on-authentication show-if-admin">
                                 <span class="btn btn-warning developer-edit" onClick="editDeveloper(1)"><i class="fas fa-edit"></i></span>
                                 <span class="btn btn-danger developer-delete" onClick="deleteDeveloper(1)"><i class="fas fa-trash-alt"></i></span>
                             </td>

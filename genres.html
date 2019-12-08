@@ -53,7 +53,7 @@
 
         <div class="row mb-2">
             <div class="col">
-                <a href="#" class="btn btn-primary float-right" data-toggle="modal" data-target="#genreFormModal"><i class="fas fa-plus"></i></a>
+                <a href="#" class="btn btn-primary float-right depend-on-authentication show-if-admin" data-toggle="modal" data-target="#genreFormModal"><i class="fas fa-plus"></i></a>
             </div>
         </div>
 
@@ -64,7 +64,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Жанр</th>
-                            <th scope="col">Действие</th>
+                            <th scope="col" class="depend-on-authentication show-if-admin">Действие</th>
                         </tr>
                     </thead>
                     <tbody id="results">
@@ -72,7 +72,7 @@
                         <!-- Шаблон за жанр -->
                         <tr id="resultTemplate" style="display: none;">
                             <td class="genre-name">Horror</td>
-                            <td>
+                            <td class="depend-on-authentication show-if-admin">
                                 <span class="btn btn-warning genre-edit" onClick="editGenre(1)"><i class="fas fa-edit"></i></span>
                                 <span class="btn btn-danger genre-delete" onClick="deleteGenre(1)"><i class="fas fa-trash-alt"></i></span>
                             </td>
