@@ -15,10 +15,11 @@
     <script src="assets/js/external_libraries/jquery-3.4.1.min.js"></script>
     <script src="assets/js/external_libraries/bootstrap.min.js"></script>
 
+	<script src="assets/js/Server.js"></script>
 	<script src="assets/js/requests.js"></script>
 	<script src="assets/js/authorization.js"></script>
 </head>
-<body class="background-image">
+<body>
 
 	<script>
 		$(document).ready(function() {
@@ -46,7 +47,7 @@
 					<li class="nav-item"><a class="nav-link" href="developers.html">Разработчици</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li id="loginMenuButton" class="nav-item depend-on-authentication show-if-not-logged"><a class="nav-link" href="login.html">Вход</a></li>
+					<li id="loginMenuButton" class="nav-item active depend-on-authentication show-if-not-logged"><a class="nav-link" href="login.html">Вход</a></li>
 					<li id="logoutMenuButton" class="nav-item depend-on-authentication show-if-logged"><a class="nav-link" href="#" onClick="logout()">Изход (<span id="loggedUserLabel"></span>)</a></li>
 				</ul>
 			</div>
@@ -54,7 +55,7 @@
 		</div>
 	</nav>
 
-	<div class="container container-on-background-image">
+	<div class="container">
 
         <div class="row">
             <div class="col">
@@ -63,7 +64,7 @@
         </div>
 
         <div class="row">
-            <div class="col">
+            <div class="col result-game">
 				<form>
 					<div class="form-group">
 						<label for="username">Потребителско име</label>

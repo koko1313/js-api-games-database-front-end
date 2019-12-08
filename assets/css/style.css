@@ -5,9 +5,16 @@ body {
     background-color: #151515;
     color: white;
     font-family: 'Open Sans', sans-serif;
+
+    background-image: url("../images/game_wallpaper.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;
 }
 h1 {
     color: var(--primary-color);
+    text-shadow: 2px 2px 2px #000000;
 }
 .modal {
     color: black;
@@ -57,6 +64,7 @@ nav {
 /* result game */
 .result-game {
     border: 2px solid var(--color-dark-green);
+    border-radius: 10px;
     background-color: #202020;
     padding: 20px;
     margin: 10px 0;
@@ -85,18 +93,3 @@ nav {
     margin: 30px 0;
 }
 /* end of result game */
-
-
-/* Login page ############################################################ */
-.background-image {
-    background-image: url("../images/game_wallpaper.jpg");
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 100% 100%;
-}
-.background-image > .container-on-background-image {
-    background-color: rgba(255, 255, 255, 0.5);
-    border-radius: 20px;
-    padding: 2rem;
-    color: black;
-}
