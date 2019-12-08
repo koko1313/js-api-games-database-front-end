@@ -2,47 +2,33 @@ function login() {
     var username = $("#username").val();
     var password = $("#password").val();
 
-    $.ajax({
-        method: "POST",
-        url: Server.SERVER_URL + "/login",
-        data: {
-            username: username,
-            password: password
-        },
-        xhrFields: {withCredentials: true},
-        complete: function(data) {
-            switch(data.status) {
-                case 200 :
-                    getWhoAmI();
-                    break;
-                case 404 : 
-                    alert("Грешно име или парола!");
-                    break;
-                
-            }
+    var data = {
+        username: username,
+        password: password
+    };
+
+    Requests.ajax("POST", "/login", data, function(resp) {
+        switch(resp.status) {
+            case 200 :
+                getWhoAmI();
+                break;
+            case 404 : 
+                alert("Грешно име или парола!");
+                break;
+            
         }
     });
 }
 
 function logout() {
-    $.ajax({
-        method: "POST",
-        url: Server.SERVER_URL + "/logout-user",
-        xhrFields: {withCredentials: true},
-        complete: function(data) {
-            location.href = "index.html";
-        }
+    Requests.ajax("POST", "/logout-user", null, function(resp) {
+        location.href = "index.html";
     });
 }
 
 function getWhoAmI(callback) {
-    $.ajax({
-        method: "GET",
-        url: Server.SERVER_URL + "/getWhoAmI",
-        xhrFields: {withCredentials: true},
-        complete: function(data) {
-            callback(data);
-        }
+    Requests.ajax("GET", "/getWhoAmI", null, function(resp) {
+        callback(resp);
     });
 }
 
