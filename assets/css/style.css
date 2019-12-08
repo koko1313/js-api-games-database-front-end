@@ -50,11 +50,11 @@ nav {
     background-color: var(--primary-color)!important;
     border: none;
 }
-.table-green-borders > thead > tr > th {
-    border: 1px solid var(--primary-color);
+.table > thead > tr > th {
+    color: var(--primary-color)!important;
 }
-.table-green-borders > tbody > tr > td {
-    border: 1px solid var(--primary-color);
+.table > thead > tr > th.action {
+    width: 25%;
 }
 /* end of bootstrap classes customization */
 
