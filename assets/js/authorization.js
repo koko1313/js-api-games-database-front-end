@@ -10,10 +10,41 @@ function login() {
     Requests.ajax("POST", "/login", data, function(resp) {
         switch(resp.status) {
             case 200 :
-                getWhoAmI();
+                location.href = "index.html";
                 break;
             case 404 : 
                 alert("Грешно име или парола!");
+                break;
+            
+        }
+    });
+}
+
+function register() {
+    var username = $("#username").val();
+    var password = $("#password").val();
+    var repassword = $("#repassword").val();
+
+    var data = {
+        username: username,
+        password: password,
+        repassword: repassword
+    };
+
+    Requests.ajax("POST", "/register", data, function(resp) {
+        switch(resp.status) {
+            case 201 :
+                alert("Регистрирахте се успешно! Сега можете да влезете в профила си.");
+                location.href = "login.html";
+                break;
+            case 406 :
+                alert("Потребителското име е заето!");
+                break;
+            case 400 :
+                alert("Паролите не съвпадат!");
+                break;
+            case 404 : 
+                alert("Нещо се обърка!");
                 break;
             
         }
