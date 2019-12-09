@@ -17,6 +17,7 @@
 
     <script src="assets/js/base/Server.js"></script>
     <script src="assets/js/base/Requests.js"></script>
+    <script src="assets/js/base/DatabaseOperations.js"></script>
     <script src="assets/js/base/authorization.js"></script>
     <script src="assets/js/genres.js"></script>
 </head>
@@ -53,7 +54,7 @@
 
         <div class="row mb-2">
             <div class="col">
-                <a href="#" class="btn btn-primary float-right depend-on-authentication show-if-admin" data-toggle="modal" data-target="#genreFormModal"><i class="fas fa-plus"></i></a>
+                <a href="#" class="btn btn-primary float-right depend-on-authentication show-if-admin" data-toggle="modal" data-target="#formModal"><i class="fas fa-plus"></i></a>
             </div>
         </div>
 
@@ -85,7 +86,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="genreFormModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

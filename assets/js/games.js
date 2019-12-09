@@ -433,20 +433,7 @@ function insertGame() {
 
     formData.append("platforms_id_list", platforms);
 
-    Requests.ajaxForm("POST", "/game/insert", formData, function(resp) {
-        switch(resp.status) {
-            case 201: 
-                $("#gameFormModal").modal("hide");
-                search();
-                break;
-            case 409:
-                alert("Има игра с това име!");
-                break;
-            case 404:
-                alert("Нещо се обърка");
-                break;
-        }
-    });
+    DatabaseOperations.insertFormData("/game/insert", formData);
 }
 
 function editGame(id) {
@@ -487,7 +474,7 @@ function editGame(id) {
 
                 $("#insertGameButton").hide();
                 $("#updateGameButton").show();
-                $("#gameFormModal").modal("show");
+                $("#formModal").modal("show");
                 break;
             case 404:
                 alert("Играта не беше намерена!");
@@ -523,35 +510,11 @@ function updateGame() {
 
     formData.append("platforms_id_list", platforms);
     
-    Requests.ajaxForm("PUT", "/game/update", formData, function(resp) {
-        switch(resp.status) {
-            case 200: 
-                $("#gameFormModal").modal("hide");
-                search();
-                break;
-            case 409:
-                alert("Има игра с това име!");
-                break;
-            case 404:
-                alert("Играта, която се опитвате да редактирате не беше намерена!");
-                break;
-        }
-    });
+    DatabaseOperations.updateFormData("/game/update", formData);
 }
 
 function deleteGame(id) {
-    if(!confirm("Сигурни ли сте?")) return;
-
-    Requests.ajax("DELETE", "/game/delete", {id: id}, function(resp) {
-        switch(resp.status) {
-            case 200:
-                search();
-                break;
-            case 404:
-                alert("Играта, която се опитвате да изтриете не беше намерена!");
-                break;
-        }
-    });
+    DatabaseOperations.delete("/game/delete", id);
 }
 
 // ########################################################################
@@ -595,13 +558,13 @@ function goToTopOfPage() {
 $(document).ready(function() {
     getWhoAmI(function(resp) {
         loggedUser = resp.responseJSON;
+        search();
     });
-    search();
     loadFilters();
     loadInputFields();
 
     // override modal close event
-    $("#gameFormModal").on("hidden.bs.modal", function () {
+    $("#formModal").on("hidden.bs.modal", function () {
         $("#gameInputId").val("");
         $("#gameInputName").val("");
         $("#gameInputDeveloper").val(0);

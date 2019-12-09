@@ -36,23 +36,12 @@ function search() {
 // ########################################################################
 
 function insertDeveloper() {
-    var developerName = $("#developerInputName").val();
-    var developerDescription = $("#developerInputDescription").val();
+    var data = {
+        name: $("#developerInputName").val(),
+        description: $("#developerInputDescription").val()
+    };
 
-    Requests.ajax("POST", "/developer/insert", {name: developerName, description: developerDescription}, function(resp) {
-        switch(resp.status) {
-            case 201: 
-                $("#developerFormModal").modal("hide");
-                search();
-                break;
-            case 409:
-                alert("Има платформа с това име!");
-                break;
-            case 404:
-                alert("Нещо се обърка");
-                break;
-        }
-    });
+    DatabaseOperations.insert("/developer/insert", data);
 }
 
 function editDeveloper(id) {
@@ -64,7 +53,7 @@ function editDeveloper(id) {
                 $("#developerInputDescription").val(resp.responseJSON.description);
                 $("#insertDeveloperButton").hide();
                 $("#updateDeveloperButton").show();
-                $("#developerFormModal").modal("show");
+                $("#formModal").modal("show");
                 break;
             case 404:
                 alert("Разработчика не беше намерен!");
@@ -74,45 +63,17 @@ function editDeveloper(id) {
 }
 
 function updateDeveloper() {
-    var developerId = $("#developerInputId").val();
-    var developerName = $("#developerInputName").val();
-    var developerDescription = $("#developerInputDescription").val();
-
     var data = {
-        id: developerId,
-        name: developerName,
-        description: developerDescription
+        id: $("#developerInputId").val(),
+        name: $("#developerInputName").val(),
+        description: $("#developerInputDescription").val()
     };
 
-    Requests.ajax("PUT", "/developer/update", data, function(resp) {
-        switch(resp.status) {
-            case 200: 
-                $("#developerFormModal").modal("hide");
-                search();
-                break;
-            case 409:
-                alert("Има разработчик с това име!");
-                break;
-            case 404:
-                alert("Разработчикът, койко се опитвате да редактирате не беше намерен!");
-                break;
-        }
-    });
+    DatabaseOperations.update("/developer/update", data);
 }
 
 function deleteDeveloper(id) {
-    if(!confirm("Сигурни ли сте?")) return;
-
-    Requests.ajax("DELETE", "/developer/delete", {id: id}, function(resp) {
-        switch(resp.status) {
-            case 200:
-                search();
-                break;
-            case 404:
-                alert("Разработчикът, който се опитвате да изтриете не беше намерен!");
-                break;
-        }
-    });
+    DatabaseOperations.delete("/developer/delete", id);
 }
 
 
@@ -123,7 +84,7 @@ $(document).ready(function() {
     search();
 
     // override modal close event
-    $('#developerFormModal').on('hidden.bs.modal', function () {
+    $('#formModal').on('hidden.bs.modal', function () {
         $("#developerInputId").val("");
         $("#developerInputName").val("");
         $("#developerInputDescription").val("");

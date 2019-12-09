@@ -35,22 +35,8 @@ function search() {
 // ########################################################################
 
 function insertGenre() {
-    var genreName = $("#genreInputName").val();
-
-    Requests.ajax("POST", "/genre/insert", {name: genreName}, function(resp) {
-        switch(resp.status) {
-            case 201: 
-                $("#genreFormModal").modal("hide");
-                search();
-                break;
-            case 409:
-                alert("Има жанр с това име!");
-                break;
-            case 404:
-                alert("Нещо се обърка");
-                break;
-        }
-    });
+    var data = {name: $("#genreInputName").val()};
+    DatabaseOperations.insert("/genre/insert", data);
 }
 
 function editGenre(id) {
@@ -61,7 +47,7 @@ function editGenre(id) {
                 $("#genreInputName").val(resp.responseJSON.name);
                 $("#insertGenreButton").hide();
                 $("#updateGenreButton").show();
-                $("#genreFormModal").modal("show");
+                $("#formModal").modal("show");
                 break;
             case 404:
                 alert("Жанра не беше намерен!");
@@ -71,38 +57,16 @@ function editGenre(id) {
 }
 
 function updateGenre() {
-    var genreId = $("#genreInputId").val();
-    var genreName = $("#genreInputName").val();
+    var data = {
+        id: $("#genreInputId").val(),
+        name: $("#genreInputName").val()
+    };
 
-    Requests.ajax("PUT", "/genre/update", {id: genreId, name: genreName}, function(resp) {
-        switch(resp.status) {
-            case 200: 
-                $("#genreFormModal").modal("hide");
-                search();
-                break;
-            case 409:
-                alert("Има жанр с това име!");
-                break;
-            case 404:
-                alert("Жанрът, който се опитвате да редактирате не беше намерен!");
-                break;
-        }
-    });
+    DatabaseOperations.update("/genre/update", data);
 }
 
 function deleteGenre(id) {
-    if(!confirm("Сигурни ли сте?")) return;
-
-    Requests.ajax("DELETE", "/genre/delete", {id: id}, function(resp) {
-        switch(resp.status) {
-            case 200:
-                search();
-                break;
-            case 404:
-                alert("Жанрът, който се опитвате да изтриете не беше намерен!");
-                break;
-        }
-    });
+    DatabaseOperations.delete("/genre/delete", id);
 }
 
 
@@ -113,7 +77,7 @@ $(document).ready(function() {
     search();
 
     // override modal close event
-    $('#genreFormModal').on('hidden.bs.modal', function () {
+    $('#formModal').on('hidden.bs.modal', function () {
         $("#genreInputId").val("");
         $("#genreInputName").val("");
         $("#insertGenreButton").show();
